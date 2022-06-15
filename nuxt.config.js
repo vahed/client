@@ -28,22 +28,21 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/repositories.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  // Modules for dev and build (recommended)
   buildModules: [
-    // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/router',
     '@nuxtjs/vuetify',
   ],
 
   axios: {
     credentials: true,
-    //baseURL: 'http://127.0.0.1:8000'
-    //proxy: true
+    baseURL: 'http://127.0.0.1:8000/api'
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
