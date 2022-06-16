@@ -35,8 +35,9 @@ export const state = () => ({
       }
     },
   
-    async create_device({ commit }, id, device) {
-      const res = await this.$repositories.device.create(id, device)
+    async create_device({ commit }, device) {
+        console.log(device)
+      const res = await this.$repositories.device.create(device)
       // const { status, data } = res
       if (res.status === 200 && res.data) {
         //   const { data } = data
@@ -47,6 +48,8 @@ export const state = () => ({
     },
   
     async update_device({ commit }, id, device) {
+      console.log(id)
+      console.log(device)
       const res = await this.$repositories.device.update(id, device)
       // const { status, data } = res
       if (res.status === 200 && res.data) {

@@ -18,6 +18,6 @@ export default ($axios) => ({
   },
 
   delete(id) {
-    return $axios.delete(`${resource}/${id}`)
+    return $axios.post(`${resource}/${id}`)
   }
 })

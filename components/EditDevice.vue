@@ -6,20 +6,21 @@
                 <v-card-title class="justify-center">Edit single record</v-card-title>
                 
                 <v-form
-                ref="form"
+                ref="editDeviceform"
                 v-model="valid"
                 lazy-validation
+                @submit.prevent="editDevice"
                 > -->
                 <v-text-field
-                    :v-model="device.model"
+                    :v-model="newModel"
                     :rules="modelRules"
-                    :value="device.model"
+                    :value="mymodel"
                     label="Model"
                     required
                 ></v-text-field>
             
-                <v-text-field
-                    :v-model="device.brand"
+                <!-- <v-text-field
+                    :v-model="brand"
                     :rules="brandRules"
                     :value="device.brand"
                     label="Brand"
@@ -27,7 +28,7 @@
                 ></v-text-field>
 
                 <v-text-field
-                    :v-model="device.os"
+                    :v-model="os"
                     :rules="osRules"
                     :value="device.os"
                     label="OS"
@@ -35,23 +36,23 @@
                 ></v-text-field>
 
                 <v-text-field
-                    :v-model="device.release_date"
+                    :v-model="release_date"
                     :rules="releaseDateRules"
                     :value="device.release_date"
                     label="Release date"
                     required
-                ></v-text-field>
+                ></v-text-field> -->
             
                 <v-btn
                     color="success"
                     class="mr-4"
-                    @click="editDevice(device)"
+                    type="submit"
                 >
                     Edit record
                 </v-btn>
-            
+            {{mymodel}}
                 </v-form>
-                {{device}}
+                
             </v-card>
         </v-col>
       </v-row>
@@ -60,35 +61,65 @@
 
 <script>
 export default {
-props: ['device'],
+props: ['device','model'],
 data() {
     return {
         valid: false,
-        model:[],
+        newModel: this.mymodel,
         modelRules: [ v => !!v || 'Model is required' ],
-        brand: [],
-        brandRules: [ v => !!v || 'Brand is required' ],
-        os: [],
-        osRules: [ v => !!v || 'OS is required' ],
-        release_date: [],
-        releaseDateRules: [ 
-            v => !!v || 'Relase date is required',
-            v => /^\d{4}\/(0[1-9]|1[0-2])$/.test(v) || 'E-mail must be valid', 
-        ],
+        //brand: '',
+        //brandRules: [ v => !!v || 'Brand is required' ],
+        //os: '',
+        //osRules: [ v => !!v || 'OS is required' ],
+        //release_date: '',
+        // releaseDateRules: [ 
+        //     v => !!v || 'Relase date is required',
+        //     v => /^\d{4}\/(0[1-9]|1[0-2])$/.test(v) || 'E-mail must be valid', 
+        // ],
     }
 },
-  async fetch({ store }) {
-    store.dispatch('get_devices')
-  },
+//   async fetch({ store }) {
+//     store.dispatch('get_devices')
+//   },
   methods:{
-    editDevice(device) {
-        console.log(device)
-            this.$store.dispatch("update_device", {
-                id: device.id,
-                device: device
-            });
-            //this.$router.push("/EditDevice");
-        },
+    editDevice() {
+        console.log('Model is: '+this.newModel.value)
+        this.$store.dispatch("update_device", {
+        id: this.device.id,
+            model: this.model,
+            brand: this.brand,
+            os: this.os,
+            received_date: this.received_date
+        });
+        //this.$router.push("/EditDevice");
+    },
   },
+  created () {
+       this.newModel = this.mymodel
+   },
+  computed: {
+    // modelData(){
+    //     return this.device.model
+    // }
+    mymodel: {
+      get() {
+        return this.device.model;
+      },
+      set(value) {
+        // just placeholder as we dont have Vuex here
+        this.device.model = value;
+        console.log("Updating counter", value)
+      }
+    },
+  },
+    watch: {
+        // device() {
+        //     this.$emit('device', this.device);
+        //     this.$emit('model', this.device.model)
+        // }
+        // modelData() {
+        //     this.modelData = this.device.model
+        // }
+    }
 }
 </script>
