@@ -30,24 +30,6 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <!-- <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-home</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn> -->
       <div 
       v-for="(item, i) in items"
           :key="i"
@@ -57,12 +39,21 @@
       <v-btn depressed color="transparent" :to="item.to" router exact>{{ item.title }}</v-btn>
       </div>
       <v-spacer />
+      <div v-if="$nuxt.$route.name === 'dashboard'">
+        <v-btn @click="logout">Logout</v-btn>
+      </div>
+
+      <div v-else>
+        <v-btn text to="/login">Login</v-btn>
+        <v-btn text to="/register">Register</v-btn>
+      </div>
       <v-btn
         icon
         @click.stop="rightDrawer = !rightDrawer"
       >
         <v-icon>mdi-menu</v-icon>
       </v-btn>
+      
     </v-app-bar>
     <v-main>
       <v-container>
@@ -109,21 +100,28 @@ export default {
           title: 'Home',
           to: '/'
         },
-        {
-          icon: '',
-          title: 'Login',
-          to: '/login'
-        },
-        {
-          icon: '',
-          title: 'Register',
-          to: '/register'
-        }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
       title: 'Vuetify.js'
+    }
+  },
+  methods: {
+    logout() {
+      this.$axios.post('/logout')
+        .then(function (response) {
+          console.log(response.status)
+            if(response.status === 200) {
+              console.log('redirect...')
+              window.location = "/"
+            }
+        })
+        .catch(function (error) {
+            if(error) {
+              alert("Somthing went wrong")
+            }
+        });
     }
   }
 }

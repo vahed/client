@@ -56,22 +56,21 @@ export default {
 
   methods: {
       login() {
-        console.log(this.email)
-          this.$axios.post('/login', {
-              email: this.email,
-              password: this.password
-          })
-          .then(function (response) {
-              if(response.data === 1) {
-                console.log('redirect...')
-                window.location = "/dashboard"
-              }
-          })
-          .catch(function (error) {
-              if(error) {
-                alert("Not valid credentials")
-              }
-          });
+        this.$axios.post('/login', {
+            email: this.email,
+            password: this.password
+        })
+        .then(function (response) {
+            if(response.data === 1) {
+              console.log('redirect...')
+              window.location = "/dashboard"
+            }
+        })
+        .catch(function (error) {
+            if(error) {
+              alert("Not valid credentials")
+            }
+        });
         
       }
   }
